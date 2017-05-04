@@ -1,0 +1,27 @@
+Make a git account & verify the email.
+Get project head to add you as contributor & accept the email that sends you.
+Get on putty and run:
+cd //Go to your home directory
+mkdir whatevyouwant //Make a directory to do the project in
+cd whatevyouwant //Go to directory you want to do the project in
+git init //start git 
+git config --global user.email "yourgithubemail" //tell git who you are 
+git config --global user.name "yourgithubname"
+git config --global push.default simple //do this unless you want to read about git pushing configs
+git remote add whatevyouwant https://github.com/csci41project/Final-Csci-Project //Set the git location
+git branch --set-supstream-to whatevyouwant/master //Set the git location
+git pull //Download the git to your directory
+
+You're all set. When you change a file and want to upload it run:
+
+git add filename
+git commit -m "Message about what you changed/added"
+git push
+
+Make sure you are always working on uptodate files. git status will tell you if changes have been made. Or you can just run git pull
+You can make a branch if you have done a bunch of work but someone else changed the file before you updated it.
+
+git checkout -b newbranchname //create the branch in your directory
+git push origin newbranchname //add the branch to the project 
+
+git checkout branchname //will move you between branches if you want to go back to working on master etc
