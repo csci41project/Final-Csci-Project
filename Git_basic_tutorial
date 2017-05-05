@@ -8,8 +8,8 @@ git init                                                       //start git
 git config --global user.email "yourgithubemail"               //tell git who you are 
 git config --global user.name "yourgithubname"
 git config --global push.default simple                        //do this unless you want to read about git pushing configs
-git remote add whatevyouwant https:                            //github.com/csci41project/Final-Csci-Project //Set the git location
-git branch --set-supstream-to whatevyouwant/master             //Set the git location
+git remote add whatevyouwant https://github.com/csci41project/Final-Csci-Project     //Set the git location
+git branch --set-upstream-to whatevyouwant/master             //Set the git location
 git pull                                                       //Download the git to your directory
 
 You're all set. When you change a file and want to upload it run:
