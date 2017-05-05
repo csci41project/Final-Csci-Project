@@ -1,36 +1,49 @@
 #include <vector>
 #include <deque>
 #include <inttypes.h>
+
 using namespace std;
 typedef int int32_t;
+
 enum Opcode{PLUS = '+', MINUS = '-', MULTIPLY = '*', DIVIDE = '/', EXPONENT = '^', MODULUS = '%'}; //consts for switch statement
 
-enum Exceptions{VAROVERFLOW, VARNOTSET, VARALREADYSET, BADINPUT, BADMATH, INVALIDHASH}; //exceptions to catch
+enum Exceptions{VAROVERFLOW, VARTOOLARGE, VARNOTSET, VARALREADYSET, BADINPUT, BADMATH, INVALIDHASH}; //exceptions to catch
 
-class IntBoolPair {
+
+class Bitfield16 {
+	uint16_t field = 0;
+	enum Bitcodes : uint16_t{EXISTS = 1<<15, INVALIDBITS = (1<<14)+(1<<13)+(1<<12)+(1<<11)+(1<<10)+(1<<9)+(1<<8), NONVALUEBITS = EXISTS + INVALIDBITS};
 	public:
-	uint8_t value = 0;
-	bool exists = false;
-	IntBoolPair(uint8_t nvalue, bool nexists): value(nvalue), exists(nexists){}
-//	IntBoolPair operator !(){return IntBoolPair(value++,!exists);} //not returns the flip of the bool, the original value, and then increments the value
+	bool checkexists(){
+		return field & EXISTS;
+	}
+	void addvalue(int value){
+		if (value & NONVALUEBITS) throw VARTOOLARGE; //int is signed so must check "all" bits > 2^7
+		field = value | EXISTS;
+	}
+	int getvalue(){
+		if (field | INVALIDBITS) throw VAROVERFLOW; //check that our last time through didn't overflow the variable
+		uint16_t oldfield = field++; //increment value by 1 and save a preincremented copy
+		return oldfield & ~EXISTS; //return the value sans the exist bit
+	}
 };
 
 class Perfecthash {
-	vector <IntBoolPair> hashtable;
+	vector <Bitfield16> hashtable;
 	public:
 		Perfecthash(): hashtable(26){} //vec size 26 for 26 possible letters/variables
 		int hashit(char var){ //hash that gives 0-25 for a-z
 			return var - 'a';
 		}
 
-		void addtotable(int index, uint8_t value){ 
-			if (hashtable.at(index).exists) throw VARALREADYSET;
-			hashtable.at(index) = IntBoolPair(value, true);
+		void addtotable(int index, int value){ 
+			if (hashtable.at(index).checkexists()) throw VARALREADYSET;
+			hashtable.at(index).addvalue(value);
 		}
 
 		int readtable(int index){ //return the value stored in the table, throws an exception if the variable hasn't been set yet
-			if (!hashtable.at(index).exists) throw VARNOTSET; 
-			return hashtable.at(index).value++; //return the value then increase it by 1
+			if (!hashtable.at(index).checkexists()) throw VARNOTSET; 
+			return hashtable.at(index).getvalue(); //return the value then increase it by 1
 		}
 };
 
@@ -40,7 +53,7 @@ class Calculator {
 		deque<int> operands;
 		deque<char> operations;
 
-		void addoperand(int noperand){ //add a new operand to its queue, must be converted to ints before adding (no variables)
+		void addoperand(int noperand){ //add a new operand to its queue, must be converted to ints before adding (ie no raw variables)
 			operands.push_back(noperand);
 		}
 
@@ -48,7 +61,7 @@ class Calculator {
 			operations.push_back(noperation);
 		}
 
-		void addvariable(uint8_t value, char var){  //throws an exception on bad variable name
+		void addvariable(char var, int value){  //throws an exception on bad variable or if value isn't between 0-255
 			int index = variables.hashit(var);
 			if (index < 0 || index > 25) throw INVALIDHASH; //check that index is within perfect hash bounds and therefor input was a valid character
 			variables.addtotable(index,value);	
