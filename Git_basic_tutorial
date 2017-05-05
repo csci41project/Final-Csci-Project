@@ -9,14 +9,17 @@ git config --global user.email "yourgithubemail"               //tell git who yo
 git config --global user.name "yourgithubname"
 git config --global push.default simple                        //do this unless you want to read about git pushing configs
 git remote add whatevyouwant https://github.com/csci41project/Final-Csci-Project     //Set the git location
-git branch --set-upstream-to whatevyouwant/master             //Set the git location
-git pull                                                       //Download the git to your directory
+git pull whatevyouwant master                                  //copy the directory to your directory, creating master
+git branch --set-upstream-to whatevyouwant/master              //Set the git location
 
 You're all set. When you change a file and want to upload it run:
 
 git add filename
 git commit -m "Message about what you changed/added"
 git push
+
+To download changed code just run:
+git pull
 
 Make sure you are always working on uptodate files. git status will tell you if changes have been made. Or you can just run git pull
 You can make a branch if you have done a bunch of work but someone else changed the file before you updated it.
