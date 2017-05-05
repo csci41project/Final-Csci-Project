@@ -22,8 +22,8 @@ class Bitfield16 {
 		field = value | EXISTS;
 	}
 	int getvalue(){
-		if (field | INVALIDBITS) throw VAROVERFLOW; //check that our last time through didn't overflow the variable
 		uint16_t oldfield = field++; //increment value by 1 and save a preincremented copy
+		if (field | INVALIDBITS) throw VAROVERFLOW; //check that we didn't overflow the variable
 		return oldfield & ~EXISTS; //return the value sans the exist bit
 	}
 };
