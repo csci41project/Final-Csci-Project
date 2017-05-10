@@ -56,7 +56,7 @@ class Perfecthash {
 		}
 };
 
-class Calculator (char var,int value) {
+class Calculator () {
 	public:
 		Perfecthash variables;
 		deque<int> operands;
