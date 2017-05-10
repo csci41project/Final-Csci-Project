@@ -42,7 +42,7 @@ int main(){ // ~*~ value not declared before? ~*~ //
 				istringstream buffer(value);
 				int val;
 				buffer>>val; //these three lines were string to int conversion*/
-				calc.addvariable(var, value) //but how do add the match value to the assigned variable??
+				calc.addvariable(var, value); //but how do add the match value to the assigned variable??
 		}
 			//so i wasn't entirely sure about the operand part. i'm getting it mixed up with the value i know and so i've been confused sorting it out. 
 		else if(a == "QUIT" || a == "Q") exit(EXIT_SUCCESS);

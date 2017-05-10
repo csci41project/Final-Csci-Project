@@ -61,7 +61,7 @@ class Calculator {
 		deque<int> operands;
 		deque<char> operations;
 	public:
-		Calculator():variables(){}
+		Calculator():variables(), operands(), operations(){}
 		void addoperand(int noperand){ //add a new operand to its queue, must be converted to ints before adding (ie no raw variables)
 			operands.push_back(noperand);
 		}
@@ -70,7 +70,7 @@ class Calculator {
 			operations.push_back(noperation);
 		}
 
-		void addvariable(){  //throws an exception on bad variable or if value isn't between 0-255
+		void addvariable(char var, int value){  //throws an exception on bad variable or if value isn't between 0-255
 			int index = variables.hashit(var);
 			if (index < 0 || index > 25) throw INVALIDHASH; //check that index is within perfect hash bounds and therefor input was a valid character
 			variables.addtotable(index,value);	
