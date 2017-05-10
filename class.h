@@ -1,4 +1,5 @@
 #include <vector>
+#include <iostream> // ~*~ //
 #include <deque>
 #include <inttypes.h>
 
@@ -37,17 +38,23 @@ class Perfecthash {
 		}
 
 		void addtotable(int index, int value){ 
-			if (hashtable.at(index).checkexists()) throw VARALREADYSET;
+			if (hashtable.at(index).checkexists()){
+				cout << "This variable already has a set value. Cannot reuse." << endl;
+				throw VARALREADYSET; // ~*~ //
+			}
 			hashtable.at(index).addvalue(value);
 		}
 
 		int readtable(int index){ //return the value stored in the table, throws an exception if the variable hasn't been set yet
-			if (!hashtable.at(index).checkexists()) throw VARNOTSET; 
+			if (!hashtable.at(index).checkexists()){
+				cout << "Variable's value has not been set." << endl;	
+				throw VARNOTSET; 
+			}
 			return hashtable.at(index).getvalue(); //return the value then increase it by 1
 		}
 };
 
-class Calculator {
+class Calculator (char var,int value) {
 	public:
 		Perfecthash variables;
 		deque<int> operands;
@@ -61,7 +68,7 @@ class Calculator {
 			operations.push_back(noperation);
 		}
 
-		void addvariable(char var, int value){  //throws an exception on bad variable or if value isn't between 0-255
+		void addvariable(){  //throws an exception on bad variable or if value isn't between 0-255
 			int index = variables.hashit(var);
 			if (index < 0 || index > 25) throw INVALIDHASH; //check that index is within perfect hash bounds and therefor input was a valid character
 			variables.addtotable(index,value);	
