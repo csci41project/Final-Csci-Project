@@ -56,12 +56,12 @@ class Perfecthash {
 		}
 };
 
-class Calculator () {
-	public:
+class Calculator {
 		Perfecthash variables;
 		deque<int> operands;
 		deque<char> operations;
-
+	public:
+		Calculator():variables(){}
 		void addoperand(int noperand){ //add a new operand to its queue, must be converted to ints before adding (ie no raw variables)
 			operands.push_back(noperand);
 		}
