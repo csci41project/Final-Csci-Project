@@ -1,5 +1,7 @@
 #include <vector>
 #include <deque>
+#include <stdexcept>
+#include <cmath>
 #include <inttypes.h>
 
 using namespace std;
@@ -72,14 +74,25 @@ class Calculator {
 			if (index < 0 || index > 25) throw INVALIDHASH;
 			return variables.readtable(index);
 		}
-
-		int addstuff(int rhs, int lhs); //will be implemented elsewhere, should throw an exception if stuff goes wrong. Can use BADMATH or add a more discriptive one like DIVBY0
-		int substuff(int rhs, int lhs);
-		int multstuff(int rhs, int lhs);
-		int divstuff(int rhs, int lhs);
-		int expstuff(int rhs, int lhs);
-		int modstuff(int rhs, int lhs);
 		
+		int addstuff(int rhs, int lhs){return rhs+lhs;}			; 
+		int substuff(int rhs, int lhs){return rhs-lhs;}
+		int multstuff(int rhs, int lhs){return rhs*lhs;}
+		int divstuff(int rhs, int lhs)
+			{
+				if(lhs==0) throw runtime_error("BAD MATH! CANNOT DIVIDE BY ZERO!");
+				else return rhs/lhs;
+			}
+		int expstuff(int rhs, int lhs)
+			{
+			//	if(lhs==0&&rhs==0) throw runtime_error//NOT SURE IF HE WANTS AN ERROR THROWN IN HERE
+				return pow(lhs,rhs);
+			}
+		int modstuff(int rhs, int lhs) {
+				if(rhs==0) throw runtime_error("BAD MATH! # MODULO ZERO IS UNDEFINED!");
+				else return lhs%rhs;
+			}
+
 		int domath(){ //run the calculator, returns the answer for the inputed line
 			if (operations.size()+1 != operands.size()) throw BADINPUT; //must always have exactly 1 more operand than operator
 			while (!operations.empty()){ //repeat until out of operations
