@@ -33,7 +33,7 @@ int main(){
 					parse >> var;
 					parse >> noperand; //this is where i got a bit confused with the operands and variable values
 					if(noperand!="="){
-						cout << "Must set variable equal to something" << endl;	
+					//	cout << "Must set variable equal to something" << endl;	
 						throw runtime_error("Must set equal to"); //checks for equal because it reads in as a string
 					}
 					parse >> value; //converts to int with ss here

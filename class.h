@@ -87,16 +87,17 @@ class Calculator {
 		int multstuff(int lhs, int rhs){return lhs*rhs;}
 		int divstuff(int lhs, int rhs)
 			{
-				if(lhs==0) throw runtime_error("BAD MATH! CANNOT DIVIDE BY ZERO!");
+				if(rhs==0) throw runtime_error("BAD MATH! CANNOT DIVIDE BY ZERO!");
 				else return lhs/rhs;
 			}
 		int expstuff(int lhs, int rhs)
 			{
-			//	if(lhs==0&&rhs==0) throw runtime_error//NOT SURE IF HE WANTS AN ERROR THROWN IN HERE
+				if(lhs==0&&rhs==0) throw runtime_error("INVALID INPUT!");//NOT SURE IF HE WANTS AN ERROR THROWN IN HERE
 				return pow(lhs,rhs);
 			}
 		int modstuff(int lhs, int rhs) {
-				if(rhs==0) throw runtime_error("BAD MATH! # MODULO ZERO IS UNDEFINED!");
+				if(rhs==0) throw runtime_error("INVALID OUTPUT!");
+			//	else if ( lhs%rhs==1) throw runtime_error("INVALID OUTPUT!");
 				else return lhs%rhs;
 			}
 
