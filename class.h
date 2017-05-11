@@ -26,7 +26,7 @@ class Bitfield16 {
 	}
 	int getvalue(){
 		uint16_t oldfield = field++; //increment value by 1 and save a preincremented copy
-		if (field | INVALIDBITS) throw VAROVERFLOW; //check that we didn't overflow the variable
+		if (field & INVALIDBITS) throw VAROVERFLOW; //check that we didn't overflow the variable
 		return oldfield & ~EXISTS; //return the value sans the exist bit
 	}
 };
@@ -51,7 +51,7 @@ class Perfecthash {
 			if (!hashtable.at(index).checkexists()){
 				cout << "Variable's value has not been set." << endl;	
 				throw VARNOTSET; 
-			}
+			};
 			return hashtable.at(index).getvalue(); //return the value then increase it by 1
 		}
 };
@@ -66,7 +66,7 @@ class Calculator {
 			operands.push_back(noperand);
 		}
 
-		void addoperation(int noperation){ //add a new operator to its queue
+		void addoperation(char noperation){ //add a new operator to its queue
 			operations.push_back(noperation);
 		}
 
@@ -82,20 +82,20 @@ class Calculator {
 			return variables.readtable(index);
 		}
 		
-		int addstuff(int rhs, int lhs){return rhs+lhs;}			; 
-		int substuff(int rhs, int lhs){return rhs-lhs;}
-		int multstuff(int rhs, int lhs){return rhs*lhs;}
-		int divstuff(int rhs, int lhs)
+		int addstuff(int lhs, int rhs){return lhs+rhs;}			; 
+		int substuff(int lhs, int rhs){return lhs-rhs;}
+		int multstuff(int lhs, int rhs){return lhs*rhs;}
+		int divstuff(int lhs, int rhs)
 			{
 				if(lhs==0) throw runtime_error("BAD MATH! CANNOT DIVIDE BY ZERO!");
-				else return rhs/lhs;
+				else return lhs/rhs;
 			}
-		int expstuff(int rhs, int lhs)
+		int expstuff(int lhs, int rhs)
 			{
 			//	if(lhs==0&&rhs==0) throw runtime_error//NOT SURE IF HE WANTS AN ERROR THROWN IN HERE
 				return pow(lhs,rhs);
 			}
-		int modstuff(int rhs, int lhs) {
+		int modstuff(int lhs, int rhs) {
 				if(rhs==0) throw runtime_error("BAD MATH! # MODULO ZERO IS UNDEFINED!");
 				else return lhs%rhs;
 			}
@@ -103,22 +103,22 @@ class Calculator {
 		int domath(){ //run the calculator, returns the answer for the inputed line
 			if (operations.size()+1 != operands.size()) throw BADINPUT; //must always have exactly 1 more operand than operator
 			while (!operations.empty()){ //repeat until out of operations
-				int rhs = operands.front(); //remove numbers from deque to use
+				int lhs = operands.front(); //remove numbers from deque to use
 				operands.pop_front();
-				int lhs = operands.front();
+				int rhs = operands.front();
 				operands.pop_front();
 				switch (operations.front()){ //let the first operator in the deque choose what operation we do
-					case PLUS: operands.push_front(addstuff(rhs,lhs)); //put the answer back on the front of the deque
+					case PLUS: operands.push_front(addstuff(lhs,rhs)); //put the answer back on the front of the deque
 							   break;
-					case MINUS: operands.push_front(substuff(rhs,lhs));
+					case MINUS: operands.push_front(substuff(lhs,rhs));
 							   break;
-					case MULTIPLY: operands.push_front(multstuff(rhs,lhs));
+					case MULTIPLY: operands.push_front(multstuff(lhs,rhs));
 							   break;
-					case DIVIDE: operands.push_front(divstuff(rhs,lhs));
+					case DIVIDE: operands.push_front(divstuff(lhs,rhs));
 							   break;
-					case EXPONENT: operands.push_front(expstuff(rhs,lhs));
+					case EXPONENT: operands.push_front(expstuff(lhs,rhs));
 							   break;
-					case MODULUS: operands.push_front(modstuff(rhs,lhs));
+					case MODULUS: operands.push_front(modstuff(lhs,rhs));
 							   break;
 				}
 				operations.pop_front(); //remove the operator we just used from the deque
