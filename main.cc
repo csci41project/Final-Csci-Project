@@ -71,5 +71,5 @@ int main(){
 				if (domath) cout <<	calc.domath() << endl; //does the math if the line was an equation and not a variable set
 			}
 		}
-		catch(...) { cout << "INVALID INPUT" << endl;}
+		catch(...) { cout << "INVALID INPUT!" << endl;}
 	}

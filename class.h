@@ -41,7 +41,7 @@ class Perfecthash {
 
 		void addtotable(int index, int value){ 
 			if (hashtable.at(index).checkexists()){
-				cout << "This variable already has a set value. Cannot reuse." << endl;
+			//	cout << "This variable already has a set value. Cannot reuse." << endl;
 				throw VARALREADYSET; // ~*~ //
 			}
 			hashtable.at(index).addvalue(value);
@@ -49,7 +49,7 @@ class Perfecthash {
 
 		int readtable(int index){ //return the value stored in the table, throws an exception if the variable hasn't been set yet
 			if (!hashtable.at(index).checkexists()){
-				cout << "Variable's value has not been set." << endl;	
+			//	cout << "Variable's value has not been set." << endl;	
 				throw VARNOTSET; 
 			};
 			return hashtable.at(index).getvalue(); //return the value then increase it by 1
